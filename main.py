@@ -1,18 +1,14 @@
 import cv2
+from cvzone.FaceDetectionModule import FaceDetector
 
 captured = cv2.VideoCapture(0)
 
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+detector = FaceDetector() 
 
 while True:
     _, frame = captured.read()
 
-    frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    faces = face_cascade.detectMultiScale(frame_gray ,1.3, 5)
-
-    for (x, y, width, height) in faces:
-        cv2.rectangle(frame, (x, y), (x+width, y+height), (0, 0, 255), 3)
+    frame, boxes = detector.findFaces(frame)
 
     cv2.imshow("Camera", frame)
 
